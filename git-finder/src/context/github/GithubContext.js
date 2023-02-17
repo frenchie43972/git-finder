@@ -14,28 +14,32 @@ export const GithubProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
-  const searchUsers = async () => {
+  const searchUsers = async (text) => {
     setLoading();
 
     // URLSearchParams is a built in browser API that provides a way to work with 
     // the query parameters (the key/value pairs after the ? in a URL)
     const params = new URLSearchParams({
-
+      q: text,
     });
     
-    const response = await fetch(`${GITHUB_URL}/search/users/${}`, {
+    const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
       headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
         },
     });
     
-    const data = await response.json();
+    const {items} = await response.json();
     
     dispatch({
       type: 'GET_USERS',
-      payload: data,
+      payload: items,
     })
   };
+
+  const clearUsers = () => dispatch({
+    type: 'CLEAR_USERS',
+  });
 
   const setLoading = () => dispatch({ type: 'SET_LOADING' });
 
@@ -44,6 +48,7 @@ export const GithubProvider = ({ children }) => {
       users: state.users,
       loading: state.loading,
       searchUsers,
+      clearUsers,
     }}>
       {children}
     </GithubContext.Provider>
