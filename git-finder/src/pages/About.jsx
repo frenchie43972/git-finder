@@ -10,6 +10,9 @@ function About() {
         Version <span className='text-black-200'>1.0.0</span>
       </p>
       <p className='text-lg text-gray-400'>
+        Course: React Front To Back by Brad Traversy
+      </p>
+      <p className='text-lg text-gray-400'>
         Layout By: Hassib Moddasser
       </p>
     </div>

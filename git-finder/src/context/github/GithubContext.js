@@ -10,6 +10,7 @@ export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
     user: {},
+    repos: [],
     loading: false,
   };
 
@@ -59,6 +60,30 @@ export const GithubProvider = ({ children }) => {
     }
   };
 
+  const getUserRepos = async (login) => {
+    setLoading();
+
+    // URLSearchParams is a built in browser API that provides a way to work with 
+    // the query parameters (the key/value pairs after the ? in a URL)
+    const params = new URLSearchParams({
+      sort: 'created',
+      per_page: 20,
+    });
+
+    const response = await fetch(`${GITHUB_URL}/users/${login}/repos?${params}`, {
+      headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+        },
+    });
+    
+    const data = await response.json();
+    
+    dispatch({
+      type: 'GET_REPOS',
+      payload: data,
+    })
+  };
+
   const clearUsers = () => dispatch({
     type: 'CLEAR_USERS',
   });
@@ -70,9 +95,11 @@ export const GithubProvider = ({ children }) => {
       users: state.users,
       user: state.user,
       loading: state.loading,
+      repos: state.repos,
       searchUsers,
       clearUsers,
       getUser,
+      getUserRepos,
     }}>
       {children}
     </GithubContext.Provider>
@@ -81,9 +108,3 @@ export const GithubProvider = ({ children }) => {
 
 export default GithubContext;
 
-// REACT_APP_G
-// ITHUB_URL = "https://api.g
-// ithub.com"
-// REACT_APP_
-// GITHUB_TOKEN = "ghp_d4MDTH2pDDOrp
-// VI0AH1sfWyUuBQF2D0uKYyj"
