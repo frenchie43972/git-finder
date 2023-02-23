@@ -1,8 +1,16 @@
 import { createContext, useReducer } from "react";
 import githubReducer from "./GithubReducer";
 
+// We are using context to share data across multiple
+// components in the application. It is related to everything Github
+// (users, respositories, etc.) and GithubContext acts as a container
+// to share that data
+
+// The useContext hook allows us to use the data contained in the context
 const GithubContext = createContext();
 
+// You will have to create a separate .env document to add your own 
+// environmental variables
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
@@ -36,7 +44,7 @@ export const GithubProvider = ({ children }) => {
     dispatch({
       type: 'GET_USERS',
       payload: items,
-    })
+    });
   };
 
   const getUser = async (login) => {
