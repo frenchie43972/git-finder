@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import { FaEye, FaInfo, FaLink, FaStar, FaUtensils } from 'react-icons/fa';
 
+// The RepoItem function destructures the repo object and uses its
+// properties in order to render to the UI as evident in the return
+// statement.
+
 function RepoItem({ repo }) {
   const {
     name,
@@ -40,6 +44,7 @@ function RepoItem({ repo }) {
   );
 }
 
+// Here is where we specify the data type for the repo property
 RepoItem.propTypes = {
   repo: PropTypes.object.isRequired,
 }

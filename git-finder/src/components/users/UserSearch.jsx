@@ -2,14 +2,25 @@ import { useState, useContext } from 'react';
 import GithubContext from '../../context/github/GithubContext';
 import AlertContext from '../../context/alert/AlertContext';
 
+// UserSearch component allows users to search Github by entering a
+// Search query
 function UserSearch() {
+  // Creates the state 'text' and assigns and empty string
   const [text, setText] = useState('');
 
+  // We use the useContect hook to access users, searchUsers, clearUsers
+  // from GithubContext and setAlert from AlertContext
   const { users, searchUsers, clearUsers } = useContext(GithubContext);
   const { setAlert } = useContext(AlertContext);
 
+  // This function is called whenever types in the search field and will
+  // update the 'text' state with the current value
   const handleChange = (event) => setText(event.target.value);
 
+  // handleSubmit is called when the user submits the form. It will prevent
+  // the default form submission behavior. If the text is empty, the setAlert
+  // function will pop the error message created else it updates the search text
+  // state and empties the input field
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -42,8 +53,11 @@ function UserSearch() {
           </div>
         </form> 
       </div>
+      {/* If the users prop is greater than 0 the "Clear" button appears and when clicked
+      it will use clearUsers to reset the page/search */}
       {users.length > 0 && (
         <div>
+          
           <button onClick={clearUsers} className="btn btn-ghost btn-lg">
             Clear
           </button>

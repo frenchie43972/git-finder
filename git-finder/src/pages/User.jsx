@@ -6,16 +6,25 @@ import Spinner from '../components/layout/Spinner';
 import RepoList from '../components/repos/RepoList';
 import GithubContext from '../context/github/GithubContext';
 
+// User displays information about a sing Github user based off of the
+// UserSearch selection
 function User() {
+  // The useContext hook is used to pull getUser, user, loading, getUserRepos, repos
+  // properties from GithubContext
   const { getUser, user, loading, getUserRepos, repos } = useContext(GithubContext);
 
+  // The useParams hook is used to access the "login" parameter from the Github API
   const params = useParams();
 
+  // useEffect fetches user information and repositories when the component is mounted. it
+  // is called after it is mounted and sets up the necessary effects in order to fetch the
+  // user information and repository list
   useEffect(() => {
     getUser(params.login);
     getUserRepos(params.login);
   }, []);
 
+  // "user" is destructured to pull the relevant properties from the user's information
   const {
     name,
     type,
@@ -37,6 +46,8 @@ function User() {
     return <Spinner />;
   }
 
+  // Returns quite a few JSX elements containg the properties from "user" to essentially display
+  // a Github user profile
   return (
     <>
       <div className='w-full mx-auto lg:w-10/12'>
